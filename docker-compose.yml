@@ -7,13 +7,20 @@ services:
       - SYS_NICE
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=zzggnt
+      - MYSQL_ROOT_PASSWORD=<password>
       - MYSQL_DATABASE=matomo
     ports:
       - 3306:3306
     volumes:
       - db:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
   db:
