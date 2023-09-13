@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  mysql-backup:
+    container_name: mysql-backup
+    image: databack/mysql-backup:latest
+    environment:
+      - DB_SERVER=server-address
+      - DB_PORT=33306
+      - DB_USER=root
+      - DB_PASS=some-password
+      - DB_DUMP_TARGET=/db
+      - COMPRESSION=gzip
+      - DB_DUMP_SAFECHARS=true
+      - DB_DUMP_BY_SCHEMA=true
+      - DB_NAMES=mysql
+      - DB_DUMP_CRON=0 3 * * *
+    volumes:
+      - ./mysql-backup/mysql:/db
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
